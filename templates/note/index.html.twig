@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notes publiques{% endblock %}
+
+{% block body %}
+<h1>Affichage de la page des notes publiques.</h1>
+
+{% for item in notes %}
+<a href="/note/{{ item.slug }}">
+    <h3>{{ item.title }}</h3>
+</a>
+{% endfor %}
+
+{{ dump(notes) }}
+
+{% endblock %}
