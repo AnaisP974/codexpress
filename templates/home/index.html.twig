@@ -3,6 +3,21 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<h1>Home Page</h1>
-{{ dump(lastNotes) }}
+<header>
+    <h1>Lorem ipsum dolor</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad alias quisquam numquam adipisci recusandae beatae dolores magnam? Pariatur, dicta dolores accusamus repudiandae, officiis, dignissimos corrupti deserunt eveniet in quibusdam tempora!</p>
+</header>
+<div class="">
+    <h1 class="text-5xl text-green-800 m-8">Lorem ipsum dolor</h1>
+    <p>There are {{ lastNotes|length }} publics notes on CodeXpress. </p>
+    <div class="">
+        {% for item in lastNotes %}
+            <div class="">
+                {{ item.title }}
+                {{ item.category.title }}
+                <a href="{{ path('app_note_show', {'slug': item.slug}) }}">Check it</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

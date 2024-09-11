@@ -9,11 +9,11 @@
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
-            <script src="https://cdn.tailwindcss.com"></script>
         {% endblock %}
     </head>
-    <body>
-    
+    <body >
+        {{ include('components/navbar.html.twig') }}
         {% block body %}{% endblock %}
+        {{ include('components/footer.html.twig') }}
     </body>
 </html>
