@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notes publiques{% endblock %}
+
+{% block body %}
+<h1>Notes publiques :</h1>
+
+<div class="flex flex-wrap justify-center">
+{% for note in allNotes %}
+    <div class="w-72 m-4 p-3 border border-1 text-center">
+
+        <h3>{{ note.title}} </h3>
+        <p><i>{{ note.views}} vues</i></p>
+        <p>{{ note.content|slice(0, 50)}} ...</p>
+        <a href="{{ path('app_note_show', {'slug': note.slug}) }}">Voir</a>
+    </div>
+{% endfor %}
+</div>
+
+{% endblock %}
