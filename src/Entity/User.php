@@ -50,9 +50,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
+
+    /**
+     * @var Collection<int, Network>
+     */
+    #[ORM\OneToMany(targetEntity: Network::class, mappedBy: 'creator', orphanRemoval: true)]
+    private Collection $networks;
+
+    /**
+     * @var Collection<int, Like>
+     */
+    #[ORM\OneToMany(targetEntity: Like::class, mappedBy: 'creator')]
+    private Collection $likes;
+
     public function __construct()
     {
         $this->notes = new ArrayCollection();
+        $this->networks = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
     
     #[ORM\PrePersist]
@@ -205,6 +223,79 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, Network>
+     */
+    public function getNetworks(): Collection
+    {
+        return $this->networks;
+    }
+
+    public function addNetwork(Network $network): static
+    {
+        if (!$this->networks->contains($network)) {
+            $this->networks->add($network);
+            $network->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNetwork(Network $network): static
+    {
+        if ($this->networks->removeElement($network)) {
+            // set the owning side to null (unless already changed)
+            if ($network->getCreator() === $this) {
+                $network->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getCreator() === $this) {
+                $like->setCreator(null);
+            }
+        }
 
         return $this;
     }

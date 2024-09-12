@@ -27,8 +27,6 @@ class Notification
     #[ORM\Column]
     private ?bool $is_archived = null;
 
-
-
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
